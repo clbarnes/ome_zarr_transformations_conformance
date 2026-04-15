@@ -38,15 +38,15 @@
             "name": "input->output",
             "input": "input",
             "output": "output",
-            "type": "affine",
-            "affine": [
+            "type": "rotation",
+            "rotation": [
               [
-                1,
-                0
+                0.17,
+                -0.985
               ],
               [
-                0,
-                1
+                0.985,
+                0.17
               ]
             ]
           }

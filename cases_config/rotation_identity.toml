@@ -13,13 +13,10 @@ name = "input->output"
 input = "input"
 output = "output"
 type = "rotation"
-rotation = [
-  [ 0.17, -0.985 ],
-  [ 0.985, 0.17 ],
-]
+rotation = [[1, 0], [0, 1]]
 
 [conformance]
-description = "Rotation transformation."
+description = "Identity transformation as a rotation."
 
 should_error = false
 absolute_tolerance = 1e-6
@@ -27,18 +24,8 @@ relative_tolerance = 1e-3
 
 [conformance.source]
 name = "input"
-coordinates = [
-  [ -1, -1 ],
-  [ 0, 0 ],
-  [ 1, 1 ],
-  [ 2, 2 ],
-]
+coordinates = [[1, 2]]
 
 [conformance.target]
 name = "output"
-coordinates = [
-  [ 0.815, -1.155 ],
-  [ 0.0, 0.0 ],
-  [ -0.815, 1.155 ],
-  [ -1.63, 2.31 ],
-]
+coordinates = [[1, 2]]

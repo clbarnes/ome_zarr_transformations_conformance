@@ -1,4 +1,4 @@
-description = "Identity transformation as an affine."
+description = "Rotation transformation."
 should_error = false
 absolute_tolerance = 1e-06
 relative_tolerance = 0.001
@@ -7,7 +7,19 @@ relative_tolerance = 0.001
 name = "input"
 coordinates = [
     [
+        -1,
+        -1,
+    ],
+    [
+        0,
+        0,
+    ],
+    [
         1,
+        1,
+    ],
+    [
+        2,
         2,
     ],
 ]
@@ -16,7 +28,19 @@ coordinates = [
 name = "output"
 coordinates = [
     [
-        1,
-        2,
+        0.815,
+        -1.155,
+    ],
+    [
+        0.0,
+        0.0,
+    ],
+    [
+        -0.815,
+        1.155,
+    ],
+    [
+        -1.63,
+        2.31,
     ],
 ]
