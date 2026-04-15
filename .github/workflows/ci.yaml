@@ -19,4 +19,4 @@ jobs:
         with:
           enable-cache: true
       - run: ./write_cases.py
-      - run: test -n "$(git status --porcelain)"
+      - run: git diff --exit-code
