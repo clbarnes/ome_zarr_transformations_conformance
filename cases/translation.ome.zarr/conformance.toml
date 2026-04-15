@@ -1,0 +1,13 @@
+description = "Simple translation."
+
+should_error = false
+absolute_tolerance = 1e-6
+relative_tolerance = 1e-3
+
+[source]
+name = "input"
+coordinates = [[1, 2]]
+
+[target]
+name = "output"
+coordinates = [[11, 12]]

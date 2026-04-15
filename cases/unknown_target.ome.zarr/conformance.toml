@@ -1,0 +1,12 @@
+description = "Target coordinate system is not defined."
+
+should_error = true
+absolute_tolerance = 1e-6
+relative_tolerance = 1e-3
+
+[source]
+name = "input"
+coordinates = [[1, 2]]
+
+[target]
+name = "potato"
