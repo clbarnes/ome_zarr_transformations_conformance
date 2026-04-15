@@ -1,0 +1,27 @@
+[[scene.coordinateSystems]]
+name = "input"
+axes = [{ name = "y", type = "space" }, { name = "x", type = "space" }]
+
+[[scene.coordinateSystems]]
+name = "output"
+axes = [{ name = "y", type = "space" }, { name = "x", type = "space" }]
+
+[[scene.coordinateTransformations]]
+name = "input->output"
+input = "input"
+output = "output"
+type = "identity"
+
+[conformance]
+description = "Source coordinate system not defined."
+
+should_error = true
+absolute_tolerance = 1e-6
+relative_tolerance = 1e-3
+
+[conformance.source]
+name = "source"
+coordinates = [[1, 2]]
+
+[conformance.target]
+name = "target"

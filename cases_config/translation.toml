@@ -1,0 +1,31 @@
+invert = true
+
+[[scene.coordinateSystems]]
+name = "input"
+axes = [{ name = "y", type = "space" }, { name = "x", type = "space" }]
+
+[[scene.coordinateSystems]]
+name = "output"
+axes = [{ name = "y", type = "space" }, { name = "x", type = "space" }]
+
+[[scene.coordinateTransformations]]
+name = "input->output"
+input = "input"
+output = "output"
+type = "translation"
+translation = [10, 20]
+
+[conformance]
+description = "Simple translation."
+
+should_error = false
+absolute_tolerance = 1e-6
+relative_tolerance = 1e-3
+
+[conformance.source]
+name = "input"
+coordinates = [[1, 2]]
+
+[conformance.target]
+name = "output"
+coordinates = [[11, 22]]

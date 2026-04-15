@@ -38,7 +38,23 @@
             "name": "input->output",
             "input": "input",
             "output": "output",
-            "type": "identity"
+            "type": "sequence",
+            "transformations": [
+              {
+                "type": "scale",
+                "scale": [
+                  10,
+                  20
+                ]
+              },
+              {
+                "type": "scale",
+                "scale": [
+                  0.1,
+                  0.05
+                ]
+              }
+            ]
           }
         ]
       }

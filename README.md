@@ -70,3 +70,11 @@ The dingus would then be called repeatedly, seeing arguments like
 ```sh
 myDingus --some-arg anotherArg './cases/translation.ome.zarr' 'input' 'output' '[[1, 2]]'
 ```
+
+### Configs
+
+For convenience, simple test cases can be configured by a single TOML file representing the OME-Zarr scene and Conformance objects; see `./cases_config/` directory and the `./write_cases.py` script.
+
+Where `invert = true`, also create a test which switches the source and target objects.
+
+More complicated test cases cannot be configured this way.

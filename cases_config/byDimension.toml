@@ -1,0 +1,44 @@
+invert = true
+
+[[scene.coordinateSystems]]
+name = "input"
+axes = [{ name = "y", type = "space" }, { name = "x", type = "space" }]
+
+[[scene.coordinateSystems]]
+name = "output"
+axes = [{ name = "y", type = "space" }, { name = "x", type = "space" }]
+
+[[scene.coordinateTransformations]]
+name = "input->output"
+input = "input"
+output = "output"
+type = "byDimension"
+transformations = [
+  { type = "identity", input_axes = [
+    0,
+  ], output_axes = [
+    0,
+  ] },
+  { type = "scale", scale = [
+    10,
+  ], input_axes = [
+    1,
+  ], output_axes = [
+    1,
+  ] },
+]
+
+[conformance]
+description = "Simple byDimension."
+
+should_error = false
+absolute_tolerance = 1e-6
+relative_tolerance = 1e-3
+
+[conformance.source]
+name = "input"
+coordinates = [[1, 2]]
+
+[conformance.target]
+name = "output"
+coordinates = [[1, 20]]

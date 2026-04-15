@@ -38,7 +38,11 @@
             "name": "input->output",
             "input": "input",
             "output": "output",
-            "type": "identity"
+            "type": "scale",
+            "scale": [
+              10,
+              20
+            ]
           }
         ]
       }

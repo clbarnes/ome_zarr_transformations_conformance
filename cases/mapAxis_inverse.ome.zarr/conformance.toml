@@ -1,22 +1,22 @@
-description = "Simple translation."
+description = "Simple mapAxis."
 should_error = false
 absolute_tolerance = 1e-06
 relative_tolerance = 0.001
 
 [source]
+name = "output"
+coordinates = [
+    [
+        2,
+        1,
+    ],
+]
+
+[target]
 name = "input"
 coordinates = [
     [
         1,
         2,
-    ],
-]
-
-[target]
-name = "output"
-coordinates = [
-    [
-        11,
-        22,
     ],
 ]

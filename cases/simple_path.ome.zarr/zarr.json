@@ -20,6 +20,19 @@
             ]
           },
           {
+            "name": "intermediate",
+            "axes": [
+              {
+                "name": "y",
+                "type": "space"
+              },
+              {
+                "name": "x",
+                "type": "space"
+              }
+            ]
+          },
+          {
             "name": "output",
             "axes": [
               {
@@ -35,8 +48,14 @@
         ],
         "coordinateTransformations": [
           {
-            "name": "input->output",
+            "name": "input->intermediate",
             "input": "input",
+            "output": "intermediate",
+            "type": "identity"
+          },
+          {
+            "name": "intermediate->output",
+            "input": "intermediate",
             "output": "output",
             "type": "identity"
           }

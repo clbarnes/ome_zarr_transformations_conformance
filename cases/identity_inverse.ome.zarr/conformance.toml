@@ -1,10 +1,10 @@
-description = "Simple translation."
+description = "Identity transformation."
 should_error = false
 absolute_tolerance = 1e-06
 relative_tolerance = 0.001
 
 [source]
-name = "input"
+name = "output"
 coordinates = [
     [
         1,
@@ -13,10 +13,10 @@ coordinates = [
 ]
 
 [target]
-name = "output"
+name = "input"
 coordinates = [
     [
-        11,
-        22,
+        1,
+        2,
     ],
 ]

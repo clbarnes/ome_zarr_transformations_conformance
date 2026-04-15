@@ -38,7 +38,11 @@
             "name": "input->output",
             "input": "input",
             "output": "output",
-            "type": "identity"
+            "type": "mapAxis",
+            "mapAxis": [
+              1,
+              0
+            ]
           }
         ]
       }

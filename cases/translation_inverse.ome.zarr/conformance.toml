@@ -4,19 +4,19 @@ absolute_tolerance = 1e-06
 relative_tolerance = 0.001
 
 [source]
-name = "input"
-coordinates = [
-    [
-        1,
-        2,
-    ],
-]
-
-[target]
 name = "output"
 coordinates = [
     [
         11,
         22,
+    ],
+]
+
+[target]
+name = "input"
+coordinates = [
+    [
+        1,
+        2,
     ],
 ]
