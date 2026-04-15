@@ -1,11 +1,16 @@
 # ome-zarr-transformations-conformance
 
-Test fixtures for RFC-5 transformations for OME-Zarr.
+Test fixtures for [RFC-5 transformations](https://ngff.openmicroscopy.org/rfc/5/index.html) for [OME-Zarr](https://ngff.openmicroscopy.org/).
 
 ## Structure
 
 Each directory in `./cases/` represents a test case.
-It is an OME-Zarr Scene; it contains a `zarr.json` whose `attributes` contains an `ome` object which itself contains a `scene` object as described by the OME-Zarr v0.6+ specification.
+It is an OME-Zarr Scene; it contains a `zarr.json` whose `attributes` contains an
+[`ome` object](https://ngff.openmicroscopy.org/specifications/dev/index.html#ome-zarr-metadata)
+which itself contains a
+[`scene` object](https://ngff.openmicroscopy.org/specifications/dev/index.html#scene-metadata)
+as described by the
+[OME-Zarr v0.6+ specification](https://ngff.openmicroscopy.org/specifications/dev/index.html#).
 This scene contains a transform graph.
 
 ### The dingus
@@ -33,12 +38,13 @@ It MAY print to STDOUT a JSON-serialised [Error](#object-response) object.
 | field | necessity | type | description |
 | ----- | --------- | ---- | ----------- |
 | coordinates | MUST | array of array of number | The resulting coordinates from transforming the input. |
+| message | MAY | string | Free-text details. |
 
 #### Object: Error
 
 | field | necessity | type | description |
 | ----- | --------- | ---- | ----------- |
-| message | MAY | string | free-text description of failure |
+| message | MAY | string | Free-text description of error. |
 
 ### Test procedure
 
