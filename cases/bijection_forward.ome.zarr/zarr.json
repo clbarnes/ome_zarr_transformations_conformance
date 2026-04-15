@@ -38,11 +38,21 @@
             "name": "input->output",
             "input": "input",
             "output": "output",
-            "type": "scale",
-            "scale": [
-              10,
-              20
-            ]
+            "type": "bijection",
+            "forward": {
+              "type": "translation",
+              "translation": [
+                1,
+                1
+              ]
+            },
+            "inverse": {
+              "type": "translation",
+              "translation": [
+                10,
+                10
+              ]
+            }
           }
         ]
       }

@@ -90,6 +90,7 @@ class Source:
     def from_jso(cls, jso: dict[str, Any]) -> Self:
         return cls(**jso)
 
+
 @dataclass
 class Target:
     name: str

@@ -12,3 +12,9 @@ hooks = [
 repo = "https://github.com/astral-sh/ruff-pre-commit"
 rev = "v0.15.10"
 hooks = [{ id = "ruff-check", args = ["--fix"] }, { id = "ruff-format" }]
+
+# [[repos]]
+# repo = "local"
+# hooks = [
+#   { id = "write-cases", name = "Write cases", entry = "./write_cases.py", language = "system", files = 'cases_config/.+\.toml' },
+# ]
