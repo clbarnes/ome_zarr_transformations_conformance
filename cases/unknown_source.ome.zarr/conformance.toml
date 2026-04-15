@@ -1,0 +1,16 @@
+description = "Source coordinate system not defined."
+should_error = true
+absolute_tolerance = 1e-06
+relative_tolerance = 0.001
+
+[source]
+name = "source"
+coordinates = [
+    [
+        1,
+        2,
+    ],
+]
+
+[target]
+name = "target"

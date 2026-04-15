@@ -7,6 +7,9 @@ import tomli_w
 import json
 import shutil
 from pathlib import Path
+import logging
+
+logger = logging.getLogger(__name__)
 
 here = Path(__file__).resolve().parent
 configs = here / "cases_config"
@@ -15,11 +18,13 @@ cases = here / "cases"
 
 def main():
     for config_path in here.joinpath("cases_config").glob("*.toml"):
+        logger.debug("reading %s", config_path)
         d = tomli.loads(config_path.read_text())
         conformance = d["conformance"]
         oz_name = config_path.stem + ".ome.zarr"
         oz_path = cases / oz_name
         if oz_path.exists():
+            logger.debug("deleting existing %s", oz_path)
             shutil.rmtree(oz_path)
         oz_path.mkdir()
         zarr_json = {
@@ -31,11 +36,14 @@ def main():
         oz_path.joinpath("conformance.toml").write_text(tomli_w.dumps(conformance))
 
         if not d.get("invert"):
-            return
+            continue
+
+        logger.debug("handling inverse")
 
         oz_name = config_path.stem + "_inverse.ome.zarr"
         oz_path = cases / oz_name
         if oz_path.exists():
+            logger.debug("deleting existing %s", oz_path)
             shutil.rmtree(oz_path)
         oz_path.mkdir()
         oz_path.joinpath("zarr.json").write_text(json.dumps(zarr_json, indent=2))
@@ -47,4 +55,5 @@ def main():
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.DEBUG)
     main()

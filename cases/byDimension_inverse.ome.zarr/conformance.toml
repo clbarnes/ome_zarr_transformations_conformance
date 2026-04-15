@@ -1,0 +1,22 @@
+description = "Simple byDimension."
+should_error = false
+absolute_tolerance = 1e-06
+relative_tolerance = 0.001
+
+[source]
+name = "output"
+coordinates = [
+    [
+        1,
+        20,
+    ],
+]
+
+[target]
+name = "input"
+coordinates = [
+    [
+        1,
+        2,
+    ],
+]

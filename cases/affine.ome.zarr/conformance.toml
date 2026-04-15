@@ -1,0 +1,22 @@
+description = "Identity transformation as an affine."
+should_error = false
+absolute_tolerance = 1e-06
+relative_tolerance = 0.001
+
+[source]
+name = "input"
+coordinates = [
+    [
+        1,
+        2,
+    ],
+]
+
+[target]
+name = "output"
+coordinates = [
+    [
+        1,
+        2,
+    ],
+]
