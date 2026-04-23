@@ -18,7 +18,7 @@ jobs:
       - uses: astral-sh/setup-uv@v6
         with:
           enable-cache: true
-      - run: ./write_cases.py
+      - run: ./dev_scripts/write_cases.py
       - run: git diff --exit-code
 
   test_script:
@@ -42,11 +42,13 @@ jobs:
           mkdir tmp
           cd tmp
           uv venv .venv
-          source activate .venv/bin/activate
+          source .venv/bin/activate
         name: setup venv
       - run: uv pip install ../dist/*.tar.gz
         name: install sdist
+        working-directory: tmp
       - run: oztc --no-exit-code -- dev_scripts/null_dingus.py
+        working-directory: tmp
 
   test_wheel:
     runs-on: ubuntu-latest
@@ -67,4 +69,6 @@ jobs:
       - run:
           uv pip install ../dist/*.whl
         name: install wheel
+        working-directory: tmp
       - run: oztc --no-exit-code -- dev_scripts/null_dingus.py
+        working-directory: tmp
