@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # dependencies = ["tomli_w", "tomli>=2.4"]
-# requires-python = ">=3.14"
+# requires-python = ">=3.14,<4.0"
 # ///
 import tomli
 import tomli_w
@@ -13,12 +13,13 @@ import logging
 logger = logging.getLogger(__name__)
 
 here = Path(__file__).resolve().parent
-configs = here / "cases_config"
-cases = here / "cases"
+project = here.parent
+configs = project / "cases_config"
+cases = project / "cases"
 
 
 def main():
-    for config_path in here.joinpath("cases_config").glob("*.toml"):
+    for config_path in configs.glob("*.toml"):
         logger.debug("reading %s", config_path)
         d = tomli.loads(config_path.read_text())
         conformance = d["conformance"]

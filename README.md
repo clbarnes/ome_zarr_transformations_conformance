@@ -4,7 +4,7 @@ Test fixtures for [RFC-5 transformations](https://ngff.openmicroscopy.org/rfc/5/
 
 ## Structure
 
-Each directory in `./cases/` represents a test case.
+Each directory in [`./cases/`](./cases/) represents a test case.
 It is an OME-Zarr Scene; it contains a `zarr.json` whose `attributes` contains an
 [`ome` object](https://ngff.openmicroscopy.org/specifications/dev/index.html#ome-zarr-metadata)
 which itself contains a
@@ -71,7 +71,7 @@ It is called like:
 ./transformation_conformance.py ./cases -- myDingus --some-arg anotherArg
 ```
 
-The dingus would then be called repeatedly, seeing arguments like
+This in turn calls the dingus repeatedly, seeing arguments like
 
 ```sh
 myDingus --some-arg anotherArg './cases/translation.ome.zarr' 'input' 'output' '[[1, 2]]'

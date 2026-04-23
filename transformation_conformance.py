@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 """
+May be called as a standalone python script,
+or as `oztc` if pip-installed.
+
 Test with
 
 ```sh
@@ -9,6 +12,7 @@ Test with
 
 from __future__ import annotations
 from concurrent.futures import Future, ThreadPoolExecutor
+from contextlib import contextmanager
 import os
 import subprocess as sp
 from argparse import ArgumentParser
@@ -20,12 +24,10 @@ from dataclasses import dataclass
 from typing import Any, Iterable, Literal, Self
 import logging
 import tomllib
+import importlib.resources
 
 
 logger = logging.getLogger("ome_zarr_conformance")
-
-here = Path(__file__).resolve().parent.parent
-tests_dir = here / "tests"
 
 
 @dataclass
@@ -215,20 +217,46 @@ def run_all_tests(
                 yield res
 
 
+@contextmanager
+def maybe_builtins(no_builtin):
+    if no_builtin:
+        yield None
+    else:
+        with importlib.resources.path(
+            "transformation_conformance", "cases"
+        ) as cases_path:
+            yield cases_path
+
+
+def collect_all_tests(case_dirs: Iterable[Path], req: Requested) -> dict[str, Path]:
+    test_paths = []
+    for p in case_dirs:
+        for inner in p.iterdir():
+            if inner.is_dir():
+                test_paths.append((test_path_to_name(inner, p), inner))
+    return dict(sorted((n, p) for n, p in test_paths if req.include(n)))
+
+
 def main(raw_args=None):
     parser = ArgumentParser(
         description=(
             "Feed sample Zarr data into a dingus CLI for validation. "
             "After the arguments shown, add a -- followed by the dingus CLI call; "
-            "e.g., `ome_zarr_conformance attributes --exclude-strict -- path/to/my/dingus -cli +args`. "
+            "e.g., `./transformation_conformance.py ./cases -- path/to/my/dingus -cli +args`. "
             "The path to the attributes file or root of the zarr container will be appended to the dingus call."
         )
     )
     parser.add_argument(
         "cases",
         type=Path,
-        nargs="+",
-        help=("path to directory containing test cases"),
+        nargs="*",
+        help=("path to directories containing test cases"),
+    )
+    parser.add_argument(
+        "--no-builtin",
+        "-B",
+        action="store_true",
+        help="exclude the built-in test cases",
     )
     parser.add_argument(
         "--no-exit-code",
@@ -241,14 +269,14 @@ def main(raw_args=None):
         "-p",
         type=re.compile,
         action="append",
-        help="regular expression pattern for test names to include; can be given multiple times",
+        help="regular expression pattern for test names to include; can be given multiple times (default include all)",
     )
     parser.add_argument(
         "--exclude-pattern",
         "-P",
         type=re.compile,
         action="append",
-        help="regular expression pattern for test names to exclude; can be given multiple times",
+        help="regular expression pattern for test names to exclude; can be given multiple times (default exclude none)",
     )
     parser.add_argument(
         "--verbose",
@@ -296,30 +324,31 @@ def main(raw_args=None):
         include_patterns=args.include_pattern,
     )
 
-    test_paths = []
-    p: Path
-    for p in args.cases:
-        for inner in p.iterdir():
-            if inner.is_dir():
-                test_paths.append((test_path_to_name(inner, p), inner))
-    cases = dict(sorted((n, p) for n, p in test_paths if req.include(n)))
+    case_dirs = []
 
-    for res in run_all_tests(
-        dingus_args,
-        cases,
-    ):
-        row = [
-            res.test_name,
-            res.status,
-        ]
-        if res.status == "pass":
-            passes += 1
-        elif res.status == "fail":
-            failures += 1
-        elif res.status == "error":
-            errors += 1
+    with maybe_builtins(args.no_builtin) as builtin_cases:
+        if builtin_cases is not None:
+            case_dirs.append(builtin_cases)
 
-        print("\t".join(row))
+        case_dirs.extend(args.cases)
+        cases = collect_all_tests(case_dirs, req)
+
+        for res in run_all_tests(
+            dingus_args,
+            cases,
+        ):
+            row = [
+                res.test_name,
+                res.status,
+            ]
+            if res.status == "pass":
+                passes += 1
+            elif res.status == "fail":
+                failures += 1
+            elif res.status == "error":
+                errors += 1
+
+            print("\t".join(row))
 
     logger.info("Got %s passes, %s failures, %s errors", passes, failures, errors)
 
