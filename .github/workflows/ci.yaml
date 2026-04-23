@@ -60,11 +60,11 @@ jobs:
 
       - run: uv build --wheel
         name: build wheel
-      - run:
+      - run: |
           mkdir tmp
           cd tmp
           uv venv .venv
-          source activate .venv/bin/activate
+          source .venv/bin/activate
         name: setup venv
       - run:
           uv pip install ../dist/*.whl
