@@ -1,5 +1,7 @@
 name: CI
-on: push
+on:
+  push:
+  pull_request:
 
 jobs:
   prek:
@@ -77,3 +79,18 @@ jobs:
           fail-on-cache-miss: true
       - run: pip install dist/*.whl
       - run: oztc --no-exit-code -- dev_scripts/null_dingus.py
+
+  publish:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
+    needs: [prek, write_cases, test_script, test_installed, test_sdist, test_wheel]
+    environment:
+      name: pypi
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v6
+      - run: uv build
+      - run: uv publish
