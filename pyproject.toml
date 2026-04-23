@@ -1,7 +1,7 @@
 [project]
 name = "ome-zarr-transformations-conformance"
 version = "0.1.0"
-description = "Add your description here"
+description = "Conformance tests for OME-Zarr transformations"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = []
