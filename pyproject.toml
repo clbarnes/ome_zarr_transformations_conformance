@@ -6,6 +6,13 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = []
 
+[project.urls]
+source = "https://github.com/clbarnes/ome_zarr_transformations_conformance"
+issues = "https://github.com/clbarnes/ome_zarr_transformations_conformance/issues"
+
+[project.scripts]
+oztc = "transformation_conformance:main"
+
 [dependency-groups]
 dev = [
     "tomli_w",
@@ -18,9 +25,6 @@ dev = [
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
-
-[project.scripts]
-oztc = "transformation_conformance:main"
 
 [tool.hatch.build]
 only-include = ["transformation_conformance.py", "cases/"]
