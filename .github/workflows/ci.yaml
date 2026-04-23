@@ -20,3 +20,51 @@ jobs:
           enable-cache: true
       - run: ./write_cases.py
       - run: git diff --exit-code
+
+  test_script:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+      - run: ./transformation_conformance.py --no-exit-code -- dev_scripts/null_dingus.py
+
+  test_sdist:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: false
+
+      - run: uv build --sdist
+        name: build sdist
+      - run: |
+          mkdir tmp
+          cd tmp
+          uv venv .venv
+          source activate .venv/bin/activate
+        name: setup venv
+      - run: uv pip install ../dist/*.tar.gz
+        name: install sdist
+      - run: oztc --no-exit-code -- dev_scripts/null_dingus.py
+
+  test_wheel:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: false
+
+      - run: uv build --wheel
+        name: build wheel
+      - run:
+          mkdir tmp
+          cd tmp
+          uv venv .venv
+          source activate .venv/bin/activate
+        name: setup venv
+      - run:
+          uv pip install ../dist/*.whl
+        name: install wheel
+      - run: oztc --no-exit-code -- dev_scripts/null_dingus.py
