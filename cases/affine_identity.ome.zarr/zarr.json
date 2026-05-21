@@ -35,7 +35,7 @@
         ],
         "coordinateTransformations": [
           {
-            "name": "input->output",
+            "name": "inputToOutput",
             "input": "input",
             "output": "output",
             "type": "affine",

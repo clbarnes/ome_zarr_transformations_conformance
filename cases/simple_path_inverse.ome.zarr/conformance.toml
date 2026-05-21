@@ -1,4 +1,4 @@
-description = "Transform via an intermediate system."
+description = "Transform via an intermediate system. (inverse)"
 should_error = false
 absolute_tolerance = 1e-06
 relative_tolerance = 0.001

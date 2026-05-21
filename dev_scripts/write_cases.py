@@ -53,6 +53,7 @@ def main():
             conformance["target"],
             conformance["source"],
         )
+        conformance["description"] += " (inverse)"
         oz_path.joinpath("conformance.toml").write_text(tomli_w.dumps(conformance))
 
 

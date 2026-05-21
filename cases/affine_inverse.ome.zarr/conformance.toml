@@ -1,0 +1,54 @@
+description = "Scale and translation as an affine. (inverse)"
+should_error = false
+absolute_tolerance = 1e-06
+relative_tolerance = 0.001
+
+[source]
+name = "output"
+coordinates = [
+    [
+        18,
+        57,
+        116,
+    ],
+    [
+        20,
+        60,
+        120,
+    ],
+    [
+        22,
+        63,
+        124,
+    ],
+    [
+        24,
+        66,
+        128,
+    ],
+]
+
+[target]
+name = "input"
+coordinates = [
+    [
+        -1,
+        -1,
+        -1,
+    ],
+    [
+        0,
+        0,
+        0,
+    ],
+    [
+        1,
+        1,
+        1,
+    ],
+    [
+        2,
+        2,
+        2,
+    ],
+]

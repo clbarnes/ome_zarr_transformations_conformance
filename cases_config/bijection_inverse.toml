@@ -9,7 +9,7 @@ name = "output"
 axes = [{ name = "y", type = "space" }, { name = "x", type = "space" }]
 
 [[scene.coordinateTransformations]]
-name = "input->output"
+name = "inputToOutput"
 input = "input"
 output = "output"
 type = "bijection"

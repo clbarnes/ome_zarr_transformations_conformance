@@ -11,6 +11,7 @@ Test with
 """
 
 from __future__ import annotations
+from collections.abc import Sequence
 from concurrent.futures import Future, ThreadPoolExecutor
 from contextlib import contextmanager
 import os
@@ -62,20 +63,29 @@ class TestResult:
 class Requested:
     def __init__(
         self,
-        exclude_patterns: list[re.Pattern] | None = None,
-        include_patterns: list[re.Pattern] | None = None,
+        include_names: Sequence[str] = (),
+        exclude_names: Sequence[str] = (),
+        include_patterns: Sequence[re.Pattern] = (),
+        exclude_patterns: Sequence[re.Pattern] = (),
     ) -> None:
-        self.exclude_patterns = exclude_patterns or []
+        self.include_names = set(include_names)
+        self.exclude_names = set(exclude_names)
         self.include_patterns = include_patterns or []
+        self.exclude_patterns = exclude_patterns or []
+        self.has_inclusions = bool(self.include_names) or bool(self.include_patterns)
 
     def include(self, name: str) -> bool:
+        if name in self.exclude_names:
+            return False
+        if name in self.include_names:
+            return True
         if self.exclude_patterns and any(p.search(name) for p in self.exclude_patterns):
             return False
         if self.include_patterns and not any(
             p.search(name) for p in self.include_patterns
         ):
             return False
-        return True
+        return not self.has_inclusions
 
 
 def test_path_to_name(fpath: Path, root: Path) -> str:
@@ -237,7 +247,24 @@ def collect_all_tests(case_dirs: Iterable[Path], req: Requested) -> dict[str, Pa
     return dict(sorted((n, p) for n, p in test_paths if req.include(n)))
 
 
-def main(raw_args=None):
+@contextmanager
+def list_cases(
+    req: Requested,
+    case_dirs: Sequence[Path] = (),
+    no_builtin: bool = False,
+):
+    all_case_dirs = []
+    with maybe_builtins(no_builtin) as builtin_cases:
+        if builtin_cases is not None:
+            all_case_dirs.append(builtin_cases)
+
+        all_case_dirs.extend(case_dirs)
+        cases = collect_all_tests(case_dirs, req)
+
+        yield cases
+
+
+def main(raw_args=None) -> int:
     parser = ArgumentParser(
         description=(
             "Feed sample Zarr data into a dingus CLI for validation. "
@@ -250,7 +277,7 @@ def main(raw_args=None):
         "cases",
         type=Path,
         nargs="*",
-        help=("path to directories containing test cases"),
+        help="path to directories containing test cases",
     )
     parser.add_argument(
         "--no-builtin",
@@ -260,9 +287,21 @@ def main(raw_args=None):
     )
     parser.add_argument(
         "--no-exit-code",
-        "-X",
+        "-C",
         action="store_true",
         help="return exit code 0 (success) even if tests failed",
+    )
+    parser.add_argument(
+        "--include-exact",
+        "-x",
+        action="append",
+        help="include a test with this exact name; can be given multiple times (default include all)",
+    )
+    parser.add_argument(
+        "--exclude-exact",
+        "-X",
+        action="append",
+        help="exclude a test with this exact name; can be given multiple times (default exclude none)",
     )
     parser.add_argument(
         "--include-pattern",
@@ -277,6 +316,13 @@ def main(raw_args=None):
         type=re.compile,
         action="append",
         help="regular expression pattern for test names to exclude; can be given multiple times (default exclude none)",
+    )
+    parser.add_argument(
+        "--list-cases",
+        "-l",
+        action="store_true",
+        default=False,
+        help="rather than running tests, print a list of their names",
     )
     parser.add_argument(
         "--verbose",
@@ -294,7 +340,7 @@ def main(raw_args=None):
         dingus_args = raw_args[split + 1 :]
         these_args = raw_args[1:split]
     except ValueError:
-        these_args = raw_args
+        these_args = raw_args[1:]
         dingus_args = None
 
     args = parser.parse_args(these_args)
@@ -308,31 +354,31 @@ def main(raw_args=None):
     logging.basicConfig(level=lvl)
     logging.debug("Got args: %s", args)
 
+    req = Requested(
+        include_names=args.include_exact or [],
+        exclude_names=args.exclude_exact or [],
+        exclude_patterns=args.exclude_pattern or [],
+        include_patterns=args.include_pattern or [],
+    )
+
+    if args.list_cases:
+        with list_cases(req, args.cases, args.no_builtin) as cases:
+            for case in cases:
+                print(case)
+        return 0
+
     if dingus_args is None:
         print(
             "No dingus command provided; add -- followed by the command",
             file=sys.stderr,
         )
-        sys.exit(0)
+        return 1
 
     passes = 0
     failures = 0
     errors = 0
 
-    req = Requested(
-        exclude_patterns=args.exclude_pattern,
-        include_patterns=args.include_pattern,
-    )
-
-    case_dirs = []
-
-    with maybe_builtins(args.no_builtin) as builtin_cases:
-        if builtin_cases is not None:
-            case_dirs.append(builtin_cases)
-
-        case_dirs.extend(args.cases)
-        cases = collect_all_tests(case_dirs, req)
-
+    with list_cases(req, args.cases, args.no_builtin) as cases:
         for res in run_all_tests(
             dingus_args,
             cases,
@@ -353,15 +399,15 @@ def main(raw_args=None):
     logger.info("Got %s passes, %s failures, %s errors", passes, failures, errors)
 
     if args.no_exit_code:
-        sys.exit(0)
+        return 0
 
     code = 0
     if failures:
-        code += 1
-    if errors:
         code += 2
-    sys.exit(code)
+    if errors:
+        code += 4
+    return code
 
 
 if __name__ == "__main__":
-    main()
+    code = main()
