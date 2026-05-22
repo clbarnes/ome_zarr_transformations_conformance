@@ -14,14 +14,14 @@ axes = [{ name = "y", type = "space" }, { name = "x", type = "space" }]
 
 [[scene.coordinateTransformations]]
 name = "input->intermediate"
-input = "input"
-output = "intermediate"
+input = { name = "input" }
+output = { name = "intermediate" }
 type = "identity"
 
 [[scene.coordinateTransformations]]
 name = "intermediate->output"
-input = "intermediate"
-output = "output"
+input = { name = "intermediate" }
+output = { name = "output" }
 type = "identity"
 
 [conformance]

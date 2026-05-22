@@ -49,14 +49,22 @@
         "coordinateTransformations": [
           {
             "name": "input->intermediate",
-            "input": "input",
-            "output": "intermediate",
+            "input": {
+              "name": "input"
+            },
+            "output": {
+              "name": "intermediate"
+            },
             "type": "identity"
           },
           {
             "name": "intermediate->output",
-            "input": "intermediate",
-            "output": "output",
+            "input": {
+              "name": "intermediate"
+            },
+            "output": {
+              "name": "output"
+            },
             "type": "identity"
           }
         ]

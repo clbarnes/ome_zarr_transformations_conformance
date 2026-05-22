@@ -42,8 +42,12 @@
         "coordinateTransformations": [
           {
             "name": "inputToOutput",
-            "input": "input",
-            "output": "output",
+            "input": {
+              "name": "input"
+            },
+            "output": {
+              "name": "output"
+            },
             "type": "affine",
             "path": "coordinateTransformations/inputToOutput"
           }

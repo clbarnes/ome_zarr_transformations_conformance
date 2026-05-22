@@ -160,7 +160,7 @@ def run_test(dingus_cmd: list[str], path: Path, test_name: str) -> TestResult:
             status = "pass"
         else:
             status = "error"
-        return TestResult(
+        res = TestResult(
             test_name, status, msg, res.stderr, res.returncode, conformance
         )
     else:
@@ -184,9 +184,15 @@ def run_test(dingus_cmd: list[str], path: Path, test_name: str) -> TestResult:
             else:
                 status = "fail"
 
-        return TestResult(
+        res = TestResult(
             test_name, status, msg, res.stderr, res.returncode, conformance
         )
+
+    if res.message:
+        test_logger.debug("Got message: %s", res.message)
+    if res.stderr:
+        test_logger.debug("Got output on STDERR: %s", res.stderr)
+    return res
 
 
 def check_results(

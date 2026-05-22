@@ -13,4 +13,4 @@ coordinates = [
 ]
 
 [target]
-name = "potato"
+name = "not_output"

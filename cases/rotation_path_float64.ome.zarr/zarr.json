@@ -34,8 +34,12 @@
         "coordinateTransformations": [
           {
             "name": "inputToOutput",
-            "input": "input",
-            "output": "output",
+            "input": {
+              "name": "input"
+            },
+            "output": {
+              "name": "output"
+            },
             "type": "rotation",
             "path": "coordinateTransformations/inputToOutput"
           }

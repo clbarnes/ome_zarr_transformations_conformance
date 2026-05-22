@@ -18,8 +18,8 @@ axes = [
 
 [[scene.coordinateTransformations]]
 name = "inputToOutput"
-input = "input"
-output = "output"
+input = { name = "input" }
+output = { name = "output" }
 type = "affine"
 affine = [[2, 0, 0, 20], [0, 3, 0, 60], [0, 0, 4, 120]]
 

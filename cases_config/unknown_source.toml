@@ -8,8 +8,8 @@ axes = [{ name = "y", type = "space" }, { name = "x", type = "space" }]
 
 [[scene.coordinateTransformations]]
 name = "inputToOutput"
-input = "input"
-output = "output"
+input = { name = "input" }
+output = { name = "output" }
 type = "identity"
 
 [conformance]
@@ -20,8 +20,8 @@ absolute_tolerance = 1e-6
 relative_tolerance = 1e-3
 
 [conformance.source]
-name = "source"
+name = "not_input"
 coordinates = [[1, 2]]
 
 [conformance.target]
-name = "target"
+name = "output"

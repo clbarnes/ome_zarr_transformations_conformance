@@ -4,7 +4,7 @@ absolute_tolerance = 1e-06
 relative_tolerance = 0.001
 
 [source]
-name = "source"
+name = "not_input"
 coordinates = [
     [
         1,
@@ -13,4 +13,4 @@ coordinates = [
 ]
 
 [target]
-name = "target"
+name = "output"
