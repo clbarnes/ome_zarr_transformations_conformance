@@ -45,7 +45,9 @@
             "type": "byDimension",
             "transformations": [
               {
-                "type": "identity",
+                "transformation": {
+                  "type": "identity"
+                },
                 "input_axes": [
                   0
                 ],
@@ -54,10 +56,12 @@
                 ]
               },
               {
-                "type": "scale",
-                "scale": [
-                  10
-                ],
+                "transformation": {
+                  "type": "scale",
+                  "scale": [
+                    10
+                  ]
+                },
                 "input_axes": [
                   1
                 ],

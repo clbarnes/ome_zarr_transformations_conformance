@@ -150,30 +150,42 @@ def run_test(dingus_cmd: list[str], path: Path, test_name: str) -> TestResult:
         capture_output=True,
     )
     stdout = res.stdout.strip()
+    stderr = res.stderr.strip()
+    if stdout:
+        test_logger.debug("Got STDOUT: %s", stdout)
+    if stderr:
+        test_logger.debug("Got STDERR: %s", stderr)
     msg = None
 
     if res.returncode:
+        e = None
         if stdout:
             e = Error.from_jso(json.loads(stdout))
             msg = e.message
         if conformance.should_error:
             status = "pass"
         else:
+            test_logger.warning("Failed with unexpected error")
             status = "error"
         res = TestResult(
             test_name, status, msg, res.stderr, res.returncode, conformance
         )
     else:
+        r = None
         if stdout:
-            e = Response.from_jso(json.loads(stdout))
-            msg = e.message
+            r = Response.from_jso(json.loads(stdout))
+            msg = r.message
         if conformance.should_error:
+            test_logger.warning("Failed when error was expected but not raised")
             status = "fail"
         elif conformance.target.coordinates is None:
             status = "pass"
+        elif r is None:
+            test_logger.warning("Failed with no STDOUT")
+            status = "fail"
         else:
             is_correct = check_results(
-                e.coordinates,
+                r.coordinates,
                 conformance.target.coordinates,
                 conformance.absolute_tolerance,
                 conformance.relative_tolerance,
@@ -182,16 +194,18 @@ def run_test(dingus_cmd: list[str], path: Path, test_name: str) -> TestResult:
             if is_correct:
                 status = "pass"
             else:
+                test_logger.warning(
+                    "Failed with incorrect values; expected %s",
+                    conformance.target.coordinates,
+                )
                 status = "fail"
 
         res = TestResult(
             test_name, status, msg, res.stderr, res.returncode, conformance
         )
 
-    if res.message:
-        test_logger.debug("Got message: %s", res.message)
-    if res.stderr:
-        test_logger.debug("Got output on STDERR: %s", res.stderr)
+    if status != "pass" and res.message:
+        test_logger.warning("Failed with message: %s", res.message)
     return res
 
 

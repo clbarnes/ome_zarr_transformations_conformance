@@ -14,8 +14,8 @@ input = { name = "input" }
 output = { name = "output" }
 type = "rotation"
 rotation = [
-  [ 0.17, -0.985 ],
-  [ 0.985, 0.17 ],
+  [ 0.70710678, -0.70710678 ],
+  [ 0.70710678, 0.70710678 ],
 ]
 
 [conformance]
@@ -37,8 +37,7 @@ coordinates = [
 [conformance.target]
 name = "output"
 coordinates = [
-  [ 0.815, -1.155 ],
+  [ 0.0, -1.41421356 ],
   [ 0.0, 0.0 ],
-  [ -0.815, 1.155 ],
-  [ -1.63, 2.31 ],
-]
+  [ 0.0,  1.41421356 ],
+  [ 0.0,  2.82842712 ]]

@@ -14,14 +14,16 @@ input = { name = "input" }
 output = { name = "output" }
 type = "byDimension"
 transformations = [
-  { type = "identity", input_axes = [
-    0,
-  ], output_axes = [
-    0,
-  ] },
-  { type = "scale", scale = [
+  { transformation = { type = "identity",
+  }, input_axes = [
+      0,
+    ], output_axes = [
+      0,
+    ]
+  },
+  { transformation = {type = "scale", scale = [
     10,
-  ], input_axes = [
+  ]}, input_axes = [
     1,
   ], output_axes = [
     1,
