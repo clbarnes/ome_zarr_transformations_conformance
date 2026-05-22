@@ -3,8 +3,7 @@ name = "ome-zarr-transformations-conformance"
 version = "0.1.2"
 description = "Conformance tests for OME-Zarr transformations"
 readme = "README.md"
-requires-python = ">=3.12"
-dependencies = []
+requires-python = ">=3.11"
 
 [project.urls]
 source = "https://github.com/clbarnes/ome_zarr_transformations_conformance"
@@ -21,7 +20,7 @@ dev = [
     "mypy>=1.20.1",
     "prek>=0.3.9",
     "numpy>=2.4.6",
-    "zarr>=3.2.1",
+    "zarr>=3.1.6",
 ]
 
 [build-system]
