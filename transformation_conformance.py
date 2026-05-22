@@ -250,20 +250,38 @@ def run_all_tests(
 @contextmanager
 def maybe_builtins(no_builtin):
     if no_builtin:
+        logger.debug("Skipping builtin test cases")
         yield None
     else:
-        with importlib.resources.path(
-            "transformation_conformance", "cases"
-        ) as cases_path:
-            yield cases_path
+        try:
+            cases_dir = importlib.resources.files(
+                "transformation_conformance"
+            ).joinpath("cases")
+        except TypeError as e:
+            if "is not a package" in str(e):
+                logger.info("Not installed as a package; no builtin cases available")
+                yield None
+                return
+            else:
+                raise e
+
+        with importlib.resources.as_file(cases_dir) as p:
+            logger.debug("Got builtin test cases in %s", p)
+            yield p
 
 
 def collect_all_tests(case_dirs: Iterable[Path], req: Requested) -> dict[str, Path]:
     test_paths = []
+    logger.debug("case_dirs: %s", case_dirs)
     for p in case_dirs:
+        logger.debug("Looking for cases in %s", p)
+        count = 0
         for inner in p.iterdir():
             if inner.is_dir():
+                count += 1
+                logger.debug("Found case at %s", inner)
                 test_paths.append((test_path_to_name(inner, p), inner))
+        logger.info("Got %s cases from case dir %s", count, p)
     return dict(sorted((n, p) for n, p in test_paths if req.include(n)))
 
 
@@ -279,7 +297,7 @@ def list_cases(
             all_case_dirs.append(builtin_cases)
 
         all_case_dirs.extend(case_dirs)
-        cases = collect_all_tests(case_dirs, req)
+        cases = collect_all_tests(all_case_dirs, req)
 
         yield cases
 
