@@ -1,0 +1,68 @@
+description = "1D coordinate field mapping index to physical space (x = i ** 2)."
+should_error = false
+absolute_tolerance = 1e-06
+relative_tolerance = 0.001
+
+[source]
+name = "input"
+coordinates = [
+    [
+        0.0,
+    ],
+    [
+        0.9,
+    ],
+    [
+        1.0,
+    ],
+    [
+        1.5,
+    ],
+    [
+        2.0,
+    ],
+    [
+        2.5,
+    ],
+    [
+        3.0,
+    ],
+    [
+        3.3,
+    ],
+    [
+        4.0,
+    ],
+]
+
+[target]
+name = "output"
+coordinates = [
+    [
+        0.0,
+    ],
+    [
+        0.9,
+    ],
+    [
+        1.0,
+    ],
+    [
+        2.5,
+    ],
+    [
+        4.0,
+    ],
+    [
+        6.5,
+    ],
+    [
+        9.0,
+    ],
+    [
+        11.1,
+    ],
+    [
+        16.0,
+    ],
+]

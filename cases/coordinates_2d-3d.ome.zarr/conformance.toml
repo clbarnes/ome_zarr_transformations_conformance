@@ -1,0 +1,86 @@
+description = "2D coordinate field mapping (v, u) indices to 3D physical space (z=v², y=v+u, x=u²), with nearest interolation."
+should_error = false
+absolute_tolerance = 1e-06
+relative_tolerance = 0.001
+
+[source]
+name = "input"
+coordinates = [
+    [
+        0.0,
+        0.0,
+    ],
+    [
+        0.1,
+        0.2,
+    ],
+    [
+        1.0,
+        2.0,
+    ],
+    [
+        1.2,
+        1.9,
+    ],
+    [
+        2.0,
+        3.0,
+    ],
+    [
+        1.8,
+        3.3,
+    ],
+    [
+        3.0,
+        1.0,
+    ],
+    [
+        3.3,
+        0.7,
+    ],
+]
+
+[target]
+name = "output"
+coordinates = [
+    [
+        0.0,
+        0.0,
+        0.0,
+    ],
+    [
+        0.0,
+        0.0,
+        0.0,
+    ],
+    [
+        1.0,
+        3.0,
+        4.0,
+    ],
+    [
+        1.0,
+        3.0,
+        4.0,
+    ],
+    [
+        4.0,
+        5.0,
+        9.0,
+    ],
+    [
+        4.0,
+        5.0,
+        9.0,
+    ],
+    [
+        9.0,
+        4.0,
+        1.0,
+    ],
+    [
+        9.0,
+        4.0,
+        1.0,
+    ],
+]
