@@ -1,0 +1,23 @@
+description = "An affine performing down-projection from 3D to 2D."
+should_error = false
+absolute_tolerance = 1e-06
+relative_tolerance = 0.001
+
+[source]
+name = "input"
+coordinates = [
+    [
+        1,
+        2,
+        3,
+    ],
+]
+
+[target]
+name = "output"
+coordinates = [
+    [
+        12,
+        18,
+    ],
+]
