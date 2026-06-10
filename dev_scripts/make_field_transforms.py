@@ -30,11 +30,17 @@ def make_displacements():
         "coordinateSystems": [
             {
                 "name": "input",
-                "axes": [{"name": "y", "type": "space"}, {"name": "x", "type": "space"}],
+                "axes": [
+                    {"name": "y", "type": "space"},
+                    {"name": "x", "type": "space"},
+                ],
             },
             {
                 "name": "output",
-                "axes": [{"name": "y", "type": "space"}, {"name": "x", "type": "space"}],
+                "axes": [
+                    {"name": "y", "type": "space"},
+                    {"name": "x", "type": "space"},
+                ],
             },
         ],
         "coordinateTransformations": [
@@ -165,20 +171,30 @@ def make_coordinates_1d():
         "source": {
             "name": "input",
             "coordinates": [
-                [0.0], [0.9], 
-                [1.0], [1.5], 
-                [2.0], [2.5], 
-                [3.0], [3.3],
-                [4.0]],
+                [0.0],
+                [0.9],
+                [1.0],
+                [1.5],
+                [2.0],
+                [2.5],
+                [3.0],
+                [3.3],
+                [4.0],
+            ],
         },
         "target": {
             "name": "output",
             "coordinates": [
-                [0.0], [0.9], 
-                [1.0], [2.5],
-                [4.0], [6.5],
-                [9.0], [11.1],
-                [16.0]],
+                [0.0],
+                [0.9],
+                [1.0],
+                [2.5],
+                [4.0],
+                [6.5],
+                [9.0],
+                [11.1],
+                [16.0],
+            ],
         },
     }
     (case_path / "conformance.toml").write_text(tomli_w.dumps(conformance))
@@ -193,13 +209,21 @@ def make_coordinates_2d_3d():
 
     scene = {
         "coordinateSystems": [
-            {"name": "input", "axes": [
-                {"name": "v", "type": "space"},
-                {"name": "u", "type": "space"}]},
-            {"name": "output", "axes": [
-                {"name": "z", "type": "space"},
-                {"name": "y", "type": "space"},
-                {"name": "x", "type": "space"}]},
+            {
+                "name": "input",
+                "axes": [
+                    {"name": "v", "type": "space"},
+                    {"name": "u", "type": "space"},
+                ],
+            },
+            {
+                "name": "output",
+                "axes": [
+                    {"name": "z", "type": "space"},
+                    {"name": "y", "type": "space"},
+                    {"name": "x", "type": "space"},
+                ],
+            },
         ],
         "coordinateTransformations": [
             {
@@ -256,18 +280,28 @@ def make_coordinates_2d_3d():
         "source": {
             "name": "input",
             "coordinates": [
-                [0.0, 0.0], [0.1, 0.2],
-                [1.0, 2.0], [1.2, 1.9],
-                [2.0, 3.0], [1.8, 3.3],
-                [3.0, 1.0], [3.3, 0.7]], 
+                [0.0, 0.0],
+                [0.1, 0.2],
+                [1.0, 2.0],
+                [1.2, 1.9],
+                [2.0, 3.0],
+                [1.8, 3.3],
+                [3.0, 1.0],
+                [3.3, 0.7],
+            ],
         },
         "target": {
             "name": "output",
             "coordinates": [
-                [0.0, 0.0, 0.0], [0.0, 0.0, 0.0],
-                [1.0, 3.0, 4.0], [1.0, 3.0, 4.0], 
-                [4.0, 5.0, 9.0], [4.0, 5.0, 9.0],
-                [9.0, 4.0, 1.0], [9.0, 4.0, 1.0]],
+                [0.0, 0.0, 0.0],
+                [0.0, 0.0, 0.0],
+                [1.0, 3.0, 4.0],
+                [1.0, 3.0, 4.0],
+                [4.0, 5.0, 9.0],
+                [4.0, 5.0, 9.0],
+                [9.0, 4.0, 1.0],
+                [9.0, 4.0, 1.0],
+            ],
         },
     }
     (case_path / "conformance.toml").write_text(tomli_w.dumps(conformance))
