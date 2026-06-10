@@ -30,6 +30,8 @@ import importlib.resources
 
 logger = logging.getLogger("ome_zarr_conformance")
 
+Status = Literal["pass", "fail", "error"]
+
 
 @dataclass
 class Response:
@@ -53,7 +55,7 @@ class Error:
 @dataclass
 class TestResult:
     test_name: str
-    status: Literal["pass", "fail", "error"]
+    status: Status
     message: str | None
     stderr: str
     return_code: int
@@ -302,6 +304,52 @@ def list_cases(
         yield cases
 
 
+def colour(s: str, num: int, is_bright=False, is_background=False) -> str:
+    match (is_bright, is_background):
+        case (False, False):
+            pref = "3"
+        case (False, True):
+            pref = "4"
+        case (True, False):
+            pref = "9"
+        case (True, True):
+            pref = "10"
+    return f"\x1b[{pref}{num}m{s}\x1b[0m"
+
+
+class Colourer:
+    def __init__(self) -> None:
+        self.is_term = sys.stdout.isatty()
+
+    def _colour(self, s: str, num: int, is_bright=False, is_background=False) -> str:
+        if not self.is_term:
+            return s
+        return colour(s, num, is_bright, is_background)
+
+    def r(self, s: str) -> str:
+        return self._colour(s, 1)
+
+    def g(self, s: str) -> str:
+        return self._colour(s, 2)
+
+    def y(self, s: str) -> str:
+        return self._colour(s, 3)
+
+    def m(self, s: str) -> str:
+        return self._colour(s, 5)
+
+    def status(self, s: Status) -> str:
+        match s:
+            case "pass":
+                return self.g(s)
+            case "fail":
+                return self.r(s)
+            case "error":
+                return self.m(s)
+            case other:
+                raise ValueError(f"Unknown status '{other}'")
+
+
 def main(raw_args=None) -> int:
     parser = ArgumentParser(
         description=(
@@ -415,22 +463,27 @@ def main(raw_args=None) -> int:
     passes = 0
     failures = 0
     errors = 0
+    c = Colourer()
 
     with list_cases(req, args.cases, args.no_builtin) as cases:
         for res in run_all_tests(
             dingus_args,
             cases,
         ):
-            row = [
-                res.test_name,
-                res.status,
-            ]
             if res.status == "pass":
                 passes += 1
             elif res.status == "fail":
                 failures += 1
             elif res.status == "error":
                 errors += 1
+
+            row = [
+                res.test_name,
+                c.status(res.status),
+            ]
+
+            if res.message:
+                row.append(res.message)
 
             print("\t".join(row))
 
