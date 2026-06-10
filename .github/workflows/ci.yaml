@@ -28,7 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v6
-      - run: ./transformation_conformance.py --no-exit-code -- dev_scripts/null_dingus.py
+      - run: ./transformation_conformance.py cases --no-exit-code -- dev_scripts/null_dingus.py
 
   test_installed:
     runs-on: ubuntu-latest
