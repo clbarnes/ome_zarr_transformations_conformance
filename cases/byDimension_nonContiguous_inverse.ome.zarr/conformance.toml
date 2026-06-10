@@ -1,0 +1,24 @@
+description = "byDimension whose sub transformations work on multiple and non-contiguous indexes. (inverse)"
+should_error = false
+absolute_tolerance = 1e-06
+relative_tolerance = 0.001
+
+[source]
+name = "output"
+coordinates = [
+    [
+        7,
+        20,
+        18,
+    ],
+]
+
+[target]
+name = "input"
+coordinates = [
+    [
+        1,
+        2,
+        3,
+    ],
+]
