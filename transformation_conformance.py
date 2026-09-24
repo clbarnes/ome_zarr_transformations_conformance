@@ -501,4 +501,4 @@ def main(raw_args=None) -> int:
 
 
 if __name__ == "__main__":
-    code = main()
+    sys.exit(main())
