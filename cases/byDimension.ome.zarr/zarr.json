@@ -48,10 +48,10 @@
                 "transformation": {
                   "type": "identity"
                 },
-                "input_axes": [
+                "inputAxes": [
                   0
                 ],
-                "output_axes": [
+                "outputAxes": [
                   0
                 ]
               },
@@ -62,10 +62,10 @@
                     10
                   ]
                 },
-                "input_axes": [
+                "inputAxes": [
                   1
                 ],
-                "output_axes": [
+                "outputAxes": [
                   1
                 ]
               }

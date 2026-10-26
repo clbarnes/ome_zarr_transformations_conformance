@@ -15,17 +15,17 @@ output = { name = "output" }
 type = "byDimension"
 transformations = [
   { transformation = { type = "identity",
-  }, input_axes = [
+  }, inputAxes = [
       0,
-    ], output_axes = [
+    ], outputAxes = [
       0,
     ]
   },
   { transformation = {type = "scale", scale = [
     10,
-  ]}, input_axes = [
+  ]}, inputAxes = [
     1,
-  ], output_axes = [
+  ], outputAxes = [
     1,
   ] },
 ]
