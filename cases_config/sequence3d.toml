@@ -1,0 +1,42 @@
+invert = true
+
+[[scene.coordinateSystems]]
+name = "input"
+axes = [{ name = "z", type = "space" }, { name = "y", type = "space" }, { name = "x", type = "space" }]
+
+[[scene.coordinateSystems]]
+name = "output"
+axes = [{ name = "z", type = "space" }, { name = "y", type = "space" }, { name = "x", type = "space" }]
+
+[[scene.coordinateTransformations]]
+name = "inputToOutput"
+input = { name = "input" }
+output = { name = "output" }
+type = "sequence"
+transformations = [
+  { type = "translation", translation = [
+    10,
+    20,
+    30
+  ] },
+  { type = "scale", scale = [
+    2.0,
+    -1.0,
+    1.0
+  ] },
+]
+
+[conformance]
+description = "A 3d transform sequence whose transformations do not commute."
+
+should_error = false
+absolute_tolerance = 1e-6
+relative_tolerance = 1e-3
+
+[conformance.source]
+name = "input"
+coordinates = [[1, 2, 3]]
+
+[conformance.target]
+name = "output"
+coordinates = [[22, -22, 33]]
